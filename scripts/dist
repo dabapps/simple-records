@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+rm -rf dist
+
+mkdir -p dist/js/
+
+tsc --sourceMap --declaration --listFiles --project 'src/ts/tsconfig.json'

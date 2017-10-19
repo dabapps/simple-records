@@ -1,0 +1,68 @@
+{
+  "name": "simple-records",
+  "version": "0.0.1",
+  "description": "Simplified alternative to Immutable's Record system",
+  "main": "dist/js/index.js",
+  "types": "dist/js/index.d.ts",
+  "scripts": {
+    "dist": "./scripts/dist",
+    "lint-js": "tslint --project tsconfig.json --type-check '@(src|tests|types|docs)/**/*.@(ts|tsx)'",
+    "tests": "jest",
+    "test": "npm run dist && npm run lint-js && npm run tests -- --coverage",
+    "postinstall": "npm run dist"
+  },
+  "dependencies": {
+    "@types/underscore": "1.8.3",
+    "typescript": "2.3.3",
+    "underscore": "1.8.3"
+  },
+  "devDependencies": {
+    "@types/jest": "19.2.3",
+    "browserify": "14.4.0",
+    "concurrently": "3.5.0",
+    "http-server": "0.10.0",
+    "jest": "20.0.4",
+    "postcss": "6.0.7",
+    "postcss-cli": "4.1.0",
+    "react-test-renderer": "15.5.4",
+    "ts-jest": "20.0.7",
+    "tsify": "3.0.1",
+    "tslint": "5.4.3",
+    "tslint-config-dabapps": "dabapps/tslint-config-dabapps#v0.3.0",
+    "uglify-js": "3.0.25",
+    "watch-less-do-more": "0.2.0",
+    "watchify": "3.9.0"
+  },
+  "peerDependencies": {
+    "typescript": ">= 2.3.3 < 3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dabapps/simple-records.git"
+  },
+  "author": "DabApps",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/dabapps/simple-records/issues"
+  },
+  "homepage": "https://github.com/dabapps/simple-records#readme",
+  "jest": {
+    "collectCoverageFrom": [
+      "src/ts/**/*.{ts,tsx,js,jsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "types\\.(tsx?|jsx?)$"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/tests/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "mapCoverage": true
+  }
+}
