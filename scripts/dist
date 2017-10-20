@@ -4,6 +4,6 @@ set -e
 
 rm -rf dist
 
-mkdir -p dist/js/
+mkdir -p dist
 
-tsc --sourceMap --declaration --listFiles --project 'src/ts/tsconfig.json'
+tsc --sourceMap --declaration --listFiles --project 'src/tsconfig.json'
