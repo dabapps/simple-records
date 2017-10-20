@@ -59,6 +59,9 @@ const MyComplexRecord = RecordWithConstructor<IComplexInterfaceInput, IComplexIn
 describe('RecordWithConstructor', () => {
   it('should deeply construct my items', () => {
     const instance = MyComplexRecord();
+    expect(instance.first).toBe('first');
+    expect(instance.second.a).toBe(5);
+    expect(instance.second.b).toBe('--');
   });
 
   it('should provide correctly merged defaults', () => {
@@ -68,6 +71,9 @@ describe('RecordWithConstructor', () => {
         a: 10
       }
     });
+    expect(instance.first).toBe('a');
+    expect(instance.second.a).toBe(10);
+    expect(instance.second.b).toBe('--');
   });
 });
 
@@ -137,7 +143,7 @@ describe('narrowToRecord', () => {
 
   it('should throw if no record is available', () => {
     expect(() => {
-      const item = narrowToRecord('5');
+      narrowToRecord('5');
     }).toThrow();
   });
 });
@@ -150,7 +156,7 @@ describe('narrowToRecordArray', () => {
 
   it('should throw if no record array is available', () => {
     expect(() => {
-      const items = narrowToRecordArray(['5', '6']);
+      narrowToRecordArray(['5', '6']);
     }).toThrow();
   });
 });
