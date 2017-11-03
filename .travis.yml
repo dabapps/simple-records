@@ -10,12 +10,12 @@ install:
 
 script:
   - npm test
-  - ./scripts/dist  # TODO: switch back to npm run dist once errors are sorted
+  - npm run dist
 
-deploy:
-  local_dir: docs
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
-  on:
-    branch: master
+# deploy:
+#  local_dir: docs
+#  provider: pages
+#  skip_cleanup: true
+#  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+#  on:
+#    branch: master
