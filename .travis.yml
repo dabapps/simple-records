@@ -10,7 +10,7 @@ install:
 
 script:
   - npm test
-  - npm run dist
+  - ./scripts/dist  # TODO: switch back to npm run dist once errors are sorted
 
 deploy:
   local_dir: docs
