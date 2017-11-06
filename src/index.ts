@@ -1,6 +1,6 @@
 import * as _ from 'underscore';
 
-interface IStringKeys {
+export interface IStringKeys {
   [key: string]: any
 }
 
