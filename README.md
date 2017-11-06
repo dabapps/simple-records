@@ -28,7 +28,7 @@ type IMyRecord = Readonly<{
   b: number;
 }>;
 
-const MyRecord = SimpleRecord({
+const MyRecord = SimpleRecord<IMyRecord>({
   a: 'default string for a',
   b: 0
 });
