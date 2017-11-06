@@ -54,7 +54,7 @@ type IMyRecordInput = Readonly<{
 }>;
 
 type IMyRecord = Readonly<{
-  a: string,;
+  a: string;
   b: moment.Moment;
 }>;
 

@@ -1,8 +1,12 @@
 import * as _ from 'underscore';
 
+export interface IStringKeys {
+  [key: string]: any
+}
+
 export type Dict<T> = Readonly<{ [key: string]: T }>;
 
-export function SimpleRecord<T>(
+export function SimpleRecord<T extends IStringKeys>(
   defaults: T
 ): (input?: Partial<T>) => Readonly<T> {
   return function record(input?: Partial<T>) {
@@ -15,7 +19,7 @@ export function SimpleRecord<T>(
   };
 }
 
-export function RecordWithConstructor<T, U>(
+export function RecordWithConstructor<T extends IStringKeys, U extends IStringKeys>(
   defaults: T,
   constructorFunction: (input: T) => Readonly<U>
 ): (input?: Partial<T>) => Readonly<U> {
@@ -27,7 +31,7 @@ export function RecordWithConstructor<T, U>(
   };
 }
 
-export function recordOrUndefined<T, U>(
+export function recordOrUndefined<T extends IStringKeys, U extends IStringKeys>(
   data: T | undefined,
   constructorFunction: (input: T) => U
 ): U | undefined {
@@ -37,7 +41,7 @@ export function recordOrUndefined<T, U>(
   return undefined;
 }
 
-export function recordOrNull<T, U>(
+export function recordOrNull<T extends IStringKeys, U extends IStringKeys>(
   data: T | null,
   constructorFunction: (input: T) => U
 ): U | null {
@@ -47,7 +51,7 @@ export function recordOrNull<T, U>(
   return null;
 }
 
-export function recordOrId<T, U>(
+export function recordOrId<T extends IStringKeys, U extends IStringKeys>(
   data: T | string,
   constructorFunction: (input: T) => U
 ): U | string {
@@ -57,7 +61,7 @@ export function recordOrId<T, U>(
   return data as string;
 }
 
-export function recordArray<T, U>(
+export function recordArray<T extends IStringKeys, U extends IStringKeys>(
   data: ReadonlyArray<T> | undefined,
   ctor: (item: T) => U
 ): ReadonlyArray<U> {
@@ -67,7 +71,7 @@ export function recordArray<T, U>(
   return _.map(data, (item) => ctor(item));
 }
 
-export function recordOrIdArray<T, U>(
+export function recordOrIdArray<T extends IStringKeys, U extends IStringKeys>(
   data: ReadonlyArray<Partial<T>> | ReadonlyArray<string>,
   constructor: (item: Partial<T>) => U
 ): ReadonlyArray<U> | ReadonlyArray<string> {
