@@ -1,7 +1,7 @@
 import * as _ from 'underscore';
 
 export interface IStringKeys {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export type Dict<T> = Readonly<{ [key: string]: T }>;
@@ -19,7 +19,10 @@ export function SimpleRecord<T extends IStringKeys>(
   };
 }
 
-export function RecordWithConstructor<T extends IStringKeys, U extends IStringKeys>(
+export function RecordWithConstructor<
+  T extends IStringKeys,
+  U extends IStringKeys
+>(
   defaults: T,
   constructorFunction: (input: T) => Readonly<U>
 ): (input?: Partial<T>) => Readonly<U> {
@@ -68,7 +71,7 @@ export function recordArray<T extends IStringKeys, U extends IStringKeys>(
   if (!data) {
     return [];
   }
-  return _.map(data, (item) => ctor(item));
+  return _.map(data, item => ctor(item));
 }
 
 export function recordOrIdArray<T extends IStringKeys, U extends IStringKeys>(
@@ -80,7 +83,7 @@ export function recordOrIdArray<T extends IStringKeys, U extends IStringKeys>(
   if (_.isString(first)) {
     return data as ReadonlyArray<string>;
   } else {
-    return _.map(data as T[], (item) => constructor(item));
+    return _.map(data as T[], item => constructor(item));
   }
 }
 
@@ -93,7 +96,9 @@ export function narrowToRecord<T>(input: T | string): T {
   return input as T;
 }
 
-export function narrowToRecordArray<T>(input: ReadonlyArray<T> | ReadonlyArray<string>): ReadonlyArray<T> {
+export function narrowToRecordArray<T>(
+  input: ReadonlyArray<T> | ReadonlyArray<string>
+): ReadonlyArray<T> {
   if (input.length === 0) {
     return [];
   }
