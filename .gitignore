@@ -1,7 +1,7 @@
-/node_modules/**
-/coverage/**
-/dist/**
-/examples/build/**
+/node_modules/*
+/coverage/*
+/dist/*
+/examples/build/*
 
 .DS_Store
 npm-debug.log*

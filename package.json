@@ -1,6 +1,6 @@
 {
-  "name": "simple-records",
-  "version": "0.1.0",
+  "name": "@dabapps/simple-records",
+  "version": "0.1.1",
   "description": "Simplified alternative to ImmutableJS's Record system",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,9 @@
     "dist": "./scripts/dist",
     "lint-js": "tslint --project tsconfig.json --type-check '@(src|tests|types|docs)/**/*.@(ts|tsx)'",
     "tests": "jest",
-    "test": "npm run dist && npm run lint-js && npm run tests -- --coverage",
+    "test": "npm run prettier-check && npm run dist && npm run lint-js && npm run tests -- --coverage",
+    "prettier": "prettier --write \"{src,tests}/**/*.{ts,tsx,js,jsx}\"",
+    "prettier-check": "./scripts/prettier-check",
     "postinstall": "npm run dist"
   },
   "dependencies": {
@@ -22,15 +24,13 @@
     "concurrently": "3.5.0",
     "http-server": "0.10.0",
     "jest": "20.0.4",
-    "postcss": "6.0.7",
-    "postcss-cli": "4.1.0",
-    "react-test-renderer": "15.5.4",
+    "prettier": "1.7.4",
     "ts-jest": "20.0.7",
     "tsify": "3.0.1",
     "tslint": "5.4.3",
-    "tslint-config-dabapps": "dabapps/tslint-config-dabapps#v0.3.0",
+    "tslint-config-dabapps": "dabapps/tslint-config-dabapps#v0.3.1",
+    "tslint-config-prettier": "1.3.0",
     "uglify-js": "3.0.25",
-    "watch-less-do-more": "0.2.0",
     "watchify": "3.9.0"
   },
   "peerDependencies": {
@@ -46,6 +46,14 @@
     "url": "https://github.com/dabapps/simple-records/issues"
   },
   "homepage": "https://github.com/dabapps/simple-records#readme",
+  "keywords": [
+    "immutable",
+    "records",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/ts/**/*.{ts,tsx,js,jsx}"

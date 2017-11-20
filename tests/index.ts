@@ -17,7 +17,7 @@ type ISimpleInterface = Readonly<{
 
 const MySimpleRecord = SimpleRecord<ISimpleInterface>({
   a: 5,
-  b: '--'
+  b: '--',
 });
 
 describe('SimpleRecord', () => {
@@ -37,24 +37,34 @@ describe('SimpleRecord', () => {
 });
 
 interface IComplexInterfaceShared {
-  first: string,
+  first: string;
 }
-type IComplexInterfaceInput = Readonly<IComplexInterfaceShared & {
-  second: Partial<ISimpleInterface>,
-}>;
-type IComplexInterface = Readonly<IComplexInterfaceShared & {
-  second: ISimpleInterface,
-}>;
+type IComplexInterfaceInput = Readonly<
+  IComplexInterfaceShared & {
+    second: Partial<ISimpleInterface>;
+  }
+>;
+type IComplexInterface = Readonly<
+  IComplexInterfaceShared & {
+    second: ISimpleInterface;
+  }
+>;
 
-const MyComplexRecord = RecordWithConstructor<IComplexInterfaceInput, IComplexInterface>({
-  first: 'first',
-  second: {},
-}, (input) => {
-  return {
-    ...input,
-    second: MySimpleRecord(input.second),
-  };
-});
+const MyComplexRecord = RecordWithConstructor<
+  IComplexInterfaceInput,
+  IComplexInterface
+>(
+  {
+    first: 'first',
+    second: {},
+  },
+  input => {
+    return {
+      ...input,
+      second: MySimpleRecord(input.second),
+    };
+  }
+);
 
 describe('RecordWithConstructor', () => {
   it('should deeply construct my items', () => {
@@ -68,8 +78,8 @@ describe('RecordWithConstructor', () => {
     const instance = MyComplexRecord({
       first: 'a',
       second: {
-        a: 10
-      }
+        a: 10,
+      },
     });
     expect(instance.first).toBe('a');
     expect(instance.second.a).toBe(10);

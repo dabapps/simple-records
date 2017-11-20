@@ -6,6 +6,11 @@
 
 This repo provides a number of helper functions for working with Typescript ReadOnly objects.
 
+```
+npm install @dabapps/simple-records --save --save-exact
+```
+
+To install you will need the company npm token set in your env `NPM_TOKEN=`
 
 **Dict**
 
