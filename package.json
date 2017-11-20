@@ -1,6 +1,6 @@
 {
-  "name": "simple-records",
-  "version": "0.1.0",
+  "name": "@dabapps/simple-records",
+  "version": "0.1.1",
   "description": "Simplified alternative to ImmutableJS's Record system",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -46,6 +46,14 @@
     "url": "https://github.com/dabapps/simple-records/issues"
   },
   "homepage": "https://github.com/dabapps/simple-records#readme",
+  "keywords": [
+    "immutable",
+    "records",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "restricted"
+  },
   "jest": {
     "collectCoverageFrom": [
       "src/ts/**/*.{ts,tsx,js,jsx}"
