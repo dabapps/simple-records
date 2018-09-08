@@ -1,5 +1,3 @@
-import * as _ from 'underscore';
-
 export interface IStringKeys {
   [key: string]: any;
 }
@@ -10,10 +8,11 @@ export function SimpleRecord<T extends IStringKeys>(
   defaults: T
 ): (input?: Partial<T>) => Readonly<T> {
   return function record(input?: Partial<T>) {
-    // This would be better with Spread, but awaiting a fix
-    // https://github.com/Microsoft/TypeScript/issues/13557
     if (input) {
-      return _.extend({}, defaults, input);
+      return {
+        ...(defaults as any),
+        ...(input as any),
+      };
     }
     return defaults;
   };
@@ -58,7 +57,7 @@ export function recordOrId<T extends IStringKeys, U extends IStringKeys>(
   data: T | string,
   constructorFunction: (input: T) => U
 ): U | string {
-  if (!_.isString(data)) {
+  if (typeof data !== 'string') {
     return constructorFunction(data as T);
   }
   return data as string;
@@ -71,7 +70,7 @@ export function recordArray<T extends IStringKeys, U extends IStringKeys>(
   if (!data) {
     return [];
   }
-  return _.map(data, item => ctor(item));
+  return data.map(item => ctor(item));
 }
 
 export function recordOrIdArray<T extends IStringKeys, U extends IStringKeys>(
@@ -80,15 +79,15 @@ export function recordOrIdArray<T extends IStringKeys, U extends IStringKeys>(
 ): ReadonlyArray<U> | ReadonlyArray<string> {
   const first = data[0];
 
-  if (_.isString(first)) {
+  if (typeof first === 'string') {
     return data as ReadonlyArray<string>;
   } else {
-    return _.map(data as T[], item => constructor(item));
+    return (data as ReadonlyArray<Partial<T>>).map(item => constructor(item));
   }
 }
 
 export function narrowToRecord<T>(input: T | string): T {
-  if (_.isString(input)) {
+  if (typeof input === 'string') {
     throw new Error(
       `Tried to narrow an ID into a Record - ${typeof input} ${input}`
     );
@@ -104,7 +103,7 @@ export function narrowToRecordArray<T>(
   }
   const first = input[0];
 
-  if (_.isString(first)) {
+  if (typeof first === 'string') {
     throw new Error('Tried to narrow an Array of IDs');
   }
   return input as ReadonlyArray<T>;
