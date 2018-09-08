@@ -1,3 +1,5 @@
+export { OrderedDict, orderedDict } from './ordered-dict';
+
 export interface IStringKeys {
   [key: string]: any;
 }
