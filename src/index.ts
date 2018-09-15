@@ -1,10 +1,12 @@
-export { OrderedDict, orderedDict } from './ordered-dict';
+export { OrderedDict } from './ordered-dict';
+export { Proplist, proplistToDict, dictToProplist } from './proplist';
+export { Dict } from './dict';
+
+import { Dict } from './dict';
 
 export interface IStringKeys {
   [key: string]: any;
 }
-
-export type Dict<T> = Readonly<{ [key: string]: T }>;
 
 export function SimpleRecord<T extends IStringKeys>(
   defaults: T
