@@ -13,7 +13,7 @@ export function proplistToDict<T>(proplist: Proplist<T>): Dict<T> {
 
 export function dictToProplist<T>(dict: Dict<T>): Proplist<T> {
   let result: Proplist<T> = [];
-  for (const key in dict) {
+  for (const key of Object.keys(dict)) {
     result = [...result, [key, dict[key]]];
   }
   return result;

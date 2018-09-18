@@ -2,8 +2,6 @@ export { OrderedDict } from './ordered-dict';
 export { Proplist, proplistToDict, dictToProplist } from './proplist';
 export { Dict } from './dict';
 
-import { Dict } from './dict';
-
 export interface IStringKeys {
   [key: string]: any;
 }
