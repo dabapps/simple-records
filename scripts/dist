@@ -6,4 +6,4 @@ rm -rf dist
 
 mkdir -p dist
 
-tsc --sourceMap --declaration --listFiles --project 'src/tsconfig.json'
+tsc --project 'src/tsconfig.json'
