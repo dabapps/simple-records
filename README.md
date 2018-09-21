@@ -10,11 +10,22 @@ This repo provides a number of helper functions for working with Typescript Read
 
 This module is in its early stages and until it reaches its first major version it may be unstable, with potentially breaking changes with new minor version releases.
 
-```
-npm install @dabapps/simple-records --save --save-exact
+Patch version changes will include both minor changes and patches.
+
+## Installation
+
+Install via NPM:
+
+
+```shell
+npm install @dabapps/simple-records --save
 ```
 
-**Dict**
+If you are using a version of npm that doesn't support package lock files, we'd recommend installing with the `--save-exact` flag to pin to a specific version in your package.json.
+
+## Available interfaces
+
+### Dict
 
 Dict is a simple type alias for a Readonly Object with arbitrary string keys.
 
@@ -25,7 +36,7 @@ const x: Dict<string> = {
 
 ```
 
-**SimpleRecord**
+### SimpleRecord
 
 SimpleRecord creates a function that produces a given Readonly interface, with default values for keys that aren't provided.
 
@@ -50,7 +61,7 @@ const myInstance = MyRecord({
 // }
 ```
 
-**RecordWithConstructor**
+### RecordWithConstructor
 
 RecordWithConstructor takes an input interface of raw data, an output interface of completed data, a set of defaults for the input, and a callback function that must translate between the two types. This is used for when you have complex types (such as nested records, or Moment objects).
 
