@@ -14,7 +14,7 @@
     "postinstall": "npm run dist"
   },
   "dependencies": {
-    "typescript": "^3.0.3"
+    "typescript": "^2.9.2"
   },
   "devDependencies": {
     "@types/jest": "^19.2.3",
