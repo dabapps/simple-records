@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.com/dabapps/simple-records.svg?token=Vjwq9pDHXxGNhnyuktQ5&branch=master)](https://travis-ci.com/dabapps/simple-records)
 
-This repo provides a number of helper functions for working with Typescript ReadOnly objects.
+This module provides a number of helper functions for working with Typescript ReadOnly objects.
 
 ## Disclaimer
 
