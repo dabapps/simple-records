@@ -6,6 +6,10 @@
 
 This repo provides a number of helper functions for working with Typescript ReadOnly objects.
 
+## Disclaimer
+
+This module is in its early stages and until it reaches its first major version it may be unstable, with potentially breaking changes with new minor version releases.
+
 ```
 npm install @dabapps/simple-records --save --save-exact
 ```
