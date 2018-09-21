@@ -33,7 +33,7 @@
     "url": "git+https://github.com/dabapps/simple-records.git"
   },
   "author": "DabApps",
-  "license": "UNLICENSED",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/dabapps/simple-records/issues"
   },
