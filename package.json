@@ -11,7 +11,7 @@
     "test": "npm run prettier-check && npm run dist && npm run lint-js && npm run tests -- --coverage",
     "prettier": "prettier --write \"{src,tests}/**/*.{ts,tsx,js,jsx}\"",
     "prettier-check": "./scripts/prettier-check",
-    "prepublishOnly": "npm run dist"
+    "prepublishOnly": "npm run test && npm run dist"
   },
   "dependencies": {
     "typescript": "^2.9.2"
