@@ -16,7 +16,6 @@ Patch version changes will include both minor changes and patches.
 
 Install via NPM:
 
-
 ```shell
 npm install @dabapps/simple-records --save
 ```
