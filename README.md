@@ -10,8 +10,6 @@ This repo provides a number of helper functions for working with Typescript Read
 npm install @dabapps/simple-records --save --save-exact
 ```
 
-To install you will need the company npm token set in your env `NPM_TOKEN=`
-
 **Dict**
 
 Dict is a simple type alias for a Readonly Object with arbitrary string keys.
