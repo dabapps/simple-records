@@ -1,7 +1,7 @@
 {
   "name": "@dabapps/simple-records",
   "version": "0.1.1",
-  "description": "Simplified alternative to ImmutableJS's Record system",
+  "description": "Simple Readonly Typescript records",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
