@@ -25,7 +25,14 @@ describe('proplists', () => {
       const result = proplistToDict(myProplist);
       expect(result).toEqual({ a: 1, b: 2 });
     });
+
+    it('should favour the first instance of a value when duplicates exist', () => {
+      const myProplist: Proplist<number> = [['a', 1], ['b', 2], ['b', 3]];
+      const result = proplistToDict(myProplist);
+      expect(result).toEqual({ a: 1, b: 2 });
+    });
   });
+
   describe('dictToProplist', () => {
     it('should convert a dictionary into a proplist', () => {
       const myDict: Dict<number> = { a: 1, b: 2 };

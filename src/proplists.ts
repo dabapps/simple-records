@@ -5,8 +5,8 @@ export type Proplist<T> = Pairs<string, T>;
 export function proplistToDict<T>(proplist: Proplist<T>): Dict<T> {
   return proplist.reduce((memo, [key, value]) => {
     return {
-      ...memo,
       [key]: value,
+      ...memo,
     };
   }, {});
 }
