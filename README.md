@@ -88,3 +88,23 @@ const MyRecord = RecordWithConstructor<IMyRecordInput, IMyRecord>({
 const myInstance = MyRecord({b: '1970-01-01'});
 // myInstance.b is now a Moment object
 ```
+
+### Proplist
+
+A proplist is an array of 2-tuples of shape `[string, T]`, often used to represent simple ordered dictionary types and cases where mutiple keys may exist for the same item.  They are easily converted to Dicts and back again.
+
+```typescript
+const myProplist: Proplist<number> = [['a', 1], ['b', 2], ['b', 3]];
+
+const myDict = proplistToDict(myProplist);
+// myDict == {
+//   a: 1,
+//   b: 2
+// }
+
+const myOtherProplist = dictToProplist({a: 1, b: 2});
+// myOtherProplist == [
+//   ['a', 1],
+//   ['b', 2],
+// ];
+// // Order is not guaranteed as Dict is unordered.
