@@ -5,6 +5,12 @@ export {
   proplistToDict,
   dictToProplist,
 } from './proplists';
+export {
+  Option,
+  Some,
+  None,
+  asOption
+} from './options';
 export { SimpleRecord, RecordWithConstructor } from './records';
 export {
   recordOrUndefined,
