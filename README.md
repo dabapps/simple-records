@@ -108,3 +108,27 @@ const myOtherProplist = dictToProplist({a: 1, b: 2});
 //   ['b', 2],
 // ];
 // // Order is not guaranteed as Dict is unordered.
+```
+
+There is also a MutableProplist type, for times when you need mutability.
+
+
+### OrderedMap
+
+An OrderedMap is an object that combines the guaranteed order characteristics of an Array with the indexability of a Dict.  They can be created from Dicts (although, bare in mind Dicts are not ordered so you will need to provide a sort, otherwise it will sort alphabetically by key), and from Proplists (which will cause duplicate values to be dropped).  They can also be created from scratch.  It is not recommended as it is error-prone, but you can also initialize them with a list of keys, and a dictionary of items.
+
+```typescript
+const orderedMap1 = new OrderedMap<number>();
+const orderedMap2 = OrderedMap.fromDict({'a': 1, 'b': 2, 'c': 3});
+const orderedMap3 = OrderedMap.fromProplist([['a', 1], ['b', 2], ['c', 3]]);
+
+// Don't do this unless you're really sure
+const handInitialized = new OrderedMap<number>(['a', 'b', 'c'], {'a': 1, 'b': 2, 'c': 3});
+
+const orderedMapUpdated = orderedMap2.set('b', 5);
+const valueOfB = orderedMapUpdated.get('b');
+
+const orderedMapMerged = orderedMap2.merge(orderedMap3, ([leftKey, leftValue], [rightKey, rightValue]) => leftValue - rightValue);
+```
+
+Additional Array-like methods are provided to match the behaviour of native Arrays.
