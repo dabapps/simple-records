@@ -91,7 +91,7 @@ const myInstance = MyRecord({b: '1970-01-01'});
 
 ### Proplist
 
-A proplist is an array of 2-tuples of shape `[string, T]`, often used to represent simple ordered dictionary types and cases where mutiple keys may exist for the same item.  They can be converted to Dicts, but duplicate keys beyond the first will be discarded.
+A proplist is an array of 2-tuples of shape `[string, T]`, often used to represent simple ordered dictionary types and cases where mutiple keys may exist for the same item.  They can be converted to Dicts, but duplicate keys beyond the first will be discarded and ordering will be lost.
 
 ```typescript
 const myProplist: Proplist<number> = [['a', 1], ['b', 2], ['b', 3]];

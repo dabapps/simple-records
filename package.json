@@ -1,6 +1,6 @@
 {
   "name": "@dabapps/simple-records",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Simple Readonly TypeScript Records",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
