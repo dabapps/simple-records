@@ -6,9 +6,20 @@ describe('OrderedDict', () => {
     expect(od instanceof OrderedDict).toBe(true);
   });
 
-  it('should be constructable from a Dict', () => {
-    const od = OrderedDict.fromDict({ a: 1, b: 2, c: 3 });
-    expect(od instanceof OrderedDict).toBe(true);
+  describe('fromDict', () => {
+    it('should be constructable from a Dict', () => {
+      const od = OrderedDict.fromDict({ a: 1, b: 2, c: 3 });
+      expect(od instanceof OrderedDict).toBe(true);
+    });
+
+    it('should be sortable on construction', () => {
+      const od = OrderedDict.fromDict(
+        { a: 1, b: 2, c: 3 },
+        ([aKey, aValue], [bKey, bValue]) => bValue - aValue
+      );
+      expect(od instanceof OrderedDict).toBe(true);
+      expect(od.keys()).toEqual(['c', 'b', 'a']);
+    });
   });
 
   it('should be constructable from a Proplist', () => {
@@ -42,6 +53,34 @@ describe('OrderedDict', () => {
     const od = OrderedDict.fromProplist(input);
     const output = od.keys();
     expect(output).toEqual(['b', 'a', 'c']);
+  });
+
+  describe('get', () => {
+    it('should return a value', () => {
+      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
+      const od = OrderedDict.fromProplist(input);
+      expect(od.get('a')).toBe(1);
+    });
+
+    it('should return undefined', () => {
+      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
+      const od = OrderedDict.fromProplist(input);
+      expect(od.get('z')).toBeUndefined();
+    });
+  });
+
+  describe('index', () => {
+    it('should return a value', () => {
+      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
+      const od = OrderedDict.fromProplist(input);
+      expect(od.index(2)).toBe(3);
+    });
+
+    it('should return undefined', () => {
+      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
+      const od = OrderedDict.fromProplist(input);
+      expect(od.index(8)).toBeUndefined();
+    });
   });
 
   describe('set', () => {
@@ -88,7 +127,15 @@ describe('OrderedDict', () => {
     });
 
     it('should take a sort function', () => {
-      throw new Error('Not implemented');
+      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
+      const input2: Proplist<number> = [['d', 4]];
+      const od = OrderedDict.fromProplist(input);
+      const od2 = OrderedDict.fromProplist(input2);
+      expect(
+        od
+          .merge(od2, ([aKey, aValue], [bKey, bValue]) => bValue - aValue)
+          .keys()
+      ).toEqual(['d', 'c', 'b', 'a']);
     });
   });
 });

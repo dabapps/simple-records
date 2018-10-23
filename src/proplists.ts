@@ -1,6 +1,7 @@
-import { Dict, Pairs } from './core';
+import { Dict, MutablePairs, Pairs } from './core';
 
 export type Proplist<T> = Pairs<string, T>;
+export type MutableProplist<T> = MutablePairs<string, T>;
 
 export function proplistToDict<T>(proplist: Proplist<T>): Dict<T> {
   return proplist.reduce((memo, [key, value]) => {
@@ -11,9 +12,12 @@ export function proplistToDict<T>(proplist: Proplist<T>): Dict<T> {
   }, {});
 }
 
-export function dictToProplist<T>(dict: Dict<T>): Proplist<T> {
+export function dictToProplist<T>(dict: Dict<T>): MutableProplist<T> {
   return Object.keys(dict).reduce(
-    (memo: Proplist<T>, key): Proplist<T> => [...memo, [key, dict[key]]],
+    (memo: MutableProplist<T>, key): MutableProplist<T> => [
+      ...memo,
+      [key, dict[key]],
+    ],
     []
   );
 }
