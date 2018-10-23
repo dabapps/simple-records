@@ -60,6 +60,11 @@ describe('OrderedDict', () => {
     expect(output).toEqual({ a: 1, c: 3 });
   });
 
+  it('should have a defined length', () => {
+    const od = OrderedDict.fromDict(inputDict);
+    expect(od.length).toEqual(3);
+  });
+
   describe('get', () => {
     it('should return a value', () => {
       const od = OrderedDict.fromProplist(inputProplist);

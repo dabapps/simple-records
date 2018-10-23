@@ -78,9 +78,11 @@ export class OrderedDict<T> {
     return OrderedDict.fromProplist(this.toProplist().sort(sort));
   }
 
-  public get(key: string, defaultItem?: T): T | undefined {
+  public get(key: string): T | undefined;
+  public get(key: string, defaultValue: T): T;
+  public get(key: string, defaultValue?: T): T | undefined {
     const result = this._values[key];
-    return typeof result === 'undefined' ? defaultItem : result;
+    return typeof result === 'undefined' ? defaultValue : result;
   }
 
   public index(idx: number): T | undefined {
@@ -215,5 +217,9 @@ export class OrderedDict<T> {
       }
     }
     return undefined;
+  }
+
+  public get length(): number {
+    return this._keys.length;
   }
 }
