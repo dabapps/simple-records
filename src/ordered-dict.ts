@@ -1,4 +1,4 @@
-import { Dict } from './dict';
+import { Dict } from './core';
 import { dictToProplist, MutableProplist, Proplist } from './proplists';
 
 export type Sort<T> = (a: [string, T], b: [string, T]) => number;
