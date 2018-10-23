@@ -1,6 +1,9 @@
 import { OrderedDict, Proplist } from '../src/';
 
 describe('OrderedDict', () => {
+  const inputProplist: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
+  const inputDict = { a: 1, b: 2, c: 3 };
+
   it('should be constructable', () => {
     const od = new OrderedDict<{}>();
     expect(od instanceof OrderedDict).toBe(true);
@@ -8,13 +11,13 @@ describe('OrderedDict', () => {
 
   describe('fromDict', () => {
     it('should be constructable from a Dict', () => {
-      const od = OrderedDict.fromDict({ a: 1, b: 2, c: 3 });
+      const od = OrderedDict.fromDict(inputDict);
       expect(od instanceof OrderedDict).toBe(true);
     });
 
     it('should be sortable on construction', () => {
       const od = OrderedDict.fromDict(
-        { a: 1, b: 2, c: 3 },
+        inputDict,
         ([aKey, aValue], [bKey, bValue]) => bValue - aValue
       );
       expect(od instanceof OrderedDict).toBe(true);
@@ -23,82 +26,95 @@ describe('OrderedDict', () => {
   });
 
   it('should be constructable from a Proplist', () => {
-    const od = OrderedDict.fromProplist([['b', 2], ['a', 1], ['c', 3]]);
+    const od = OrderedDict.fromProplist(inputProplist);
     expect(od instanceof OrderedDict).toBe(true);
   });
 
   it('should be possible to get values out using toDict', () => {
-    const input = { a: 1, b: 2, c: 3 };
-    const od = OrderedDict.fromDict(input);
+    const od = OrderedDict.fromDict(inputDict);
     const output = od.toDict();
-    expect(output).toEqual(input);
+    expect(output).toEqual(inputDict);
   });
 
   it('should be possible to get values out using toProplist', () => {
-    const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-    const od = OrderedDict.fromProplist(input);
+    const od = OrderedDict.fromProplist(inputProplist);
     const output = od.toProplist();
-    expect(output).toEqual(input);
+    expect(output).toEqual(inputProplist);
   });
 
   it('should preserve order when using values', () => {
-    const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-    const od = OrderedDict.fromProplist(input);
+    const od = OrderedDict.fromProplist(inputProplist);
     const output = od.values();
     expect(output).toEqual([2, 1, 3]);
   });
 
   it('should preserve order when using keys', () => {
-    const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-    const od = OrderedDict.fromProplist(input);
+    const od = OrderedDict.fromProplist(inputProplist);
     const output = od.keys();
     expect(output).toEqual(['b', 'a', 'c']);
   });
 
   it('should allow for deletion', () => {
-    const input = { a: 1, b: 2, c: 3 };
-    const od = OrderedDict.fromDict(input);
+    const od = OrderedDict.fromDict(inputDict);
     const output = od.delete('b').toDict();
     expect(output).toEqual({ a: 1, c: 3 });
   });
 
   describe('get', () => {
     it('should return a value', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       expect(od.get('a')).toBe(1);
     });
 
     it('should return undefined', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       expect(od.get('z')).toBeUndefined();
     });
 
     it('should return a default', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       expect(od.get('z', 20)).toBe(20);
     });
   });
 
   describe('index', () => {
     it('should return a value', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       expect(od.index(2)).toBe(3);
     });
 
     it('should return undefined', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       expect(od.index(8)).toBeUndefined();
     });
   });
 
+  describe('indexOf', () => {
+    it('should get the index of an item', () => {
+      const od = OrderedDict.fromProplist(inputProplist);
+      expect(od.indexOf(3)).toBe(2);
+    });
+
+    it("should return -1 for something that doesn't exist", () => {
+      const od = OrderedDict.fromProplist(inputProplist);
+      expect(od.indexOf(0.5)).toBe(-1);
+    });
+  });
+
+  describe('keyOf', () => {
+    it('should get the key of an item', () => {
+      const od = OrderedDict.fromProplist(inputProplist);
+      expect(od.keyOf(3)).toBe('c');
+    });
+
+    it("should return -1 for something that doesn't exist", () => {
+      const od = OrderedDict.fromProplist(inputProplist);
+      expect(od.keyOf(0.5)).toBe(undefined);
+    });
+  });
+
   describe('set', () => {
-    const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-    const od = OrderedDict.fromProplist(input);
+    const od = OrderedDict.fromProplist(inputProplist);
 
     it('should overwrite existing keys', () => {
       const output = od.set('a', 5);
@@ -113,36 +129,51 @@ describe('OrderedDict', () => {
     });
   });
 
+  describe('sort', () => {
+    const od = OrderedDict.fromProplist(inputProplist);
+
+    it('should have a default sort', () => {
+      expect(od.sort().keys()).toEqual(['a', 'b', 'c']);
+    });
+
+    it('should take a sort param', () => {
+      expect(
+        od
+          .sort(
+            ([keyLeft, valueLeft], [keyRight, valueRight]) =>
+              valueRight - valueLeft
+          )
+          .keys()
+      ).toEqual(['c', 'b', 'a']);
+    });
+  });
+
   describe('merge', () => {
     it('should ignore duplicates', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       const pl = od.merge(od).toProplist();
-      expect(pl).toEqual(input);
+      expect(pl).toEqual(inputProplist);
     });
 
     it('should append new items', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
       const input2: Proplist<number> = [['d', 4], ['aa', 1]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       const od2 = OrderedDict.fromProplist(input2);
       const pl = od.merge(od2).toProplist();
-      expect(pl).toEqual(input.concat(input2));
+      expect(pl).toEqual(inputProplist.concat(input2));
     });
 
     it('should overwrite values', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
       const input2: Proplist<number> = [['b', 3], ['a', 1], ['c', 3]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       const od2 = OrderedDict.fromProplist(input2);
       const pl = od.merge(od2).toProplist();
       expect(pl).toEqual(input2);
     });
 
     it('should take a sort function', () => {
-      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
       const input2: Proplist<number> = [['d', 4]];
-      const od = OrderedDict.fromProplist(input);
+      const od = OrderedDict.fromProplist(inputProplist);
       const od2 = OrderedDict.fromProplist(input2);
       expect(
         od
@@ -154,35 +185,93 @@ describe('OrderedDict', () => {
 
   describe('functional', () => {
     it('should map correctly', () => {
-      const input = { a: 1, b: 2, c: 3 };
-      const od = OrderedDict.fromDict(input);
+      const od = OrderedDict.fromDict(inputDict);
       const output = od.map(value => String(value)).toDict();
       expect(output).toEqual({ a: '1', b: '2', c: '3' });
     });
 
     it('should filter correctly', () => {
-      const input = { a: 1, b: 2, c: 3 };
-      const od = OrderedDict.fromDict(input);
+      const od = OrderedDict.fromDict(inputDict);
       const output = od.filter(value => value < 3).toDict();
       expect(output).toEqual({ a: 1, b: 2 });
     });
 
     describe('reduce', () => {
       it('should reduce correctly', () => {
-        const input = { a: 1, b: 2, c: 3 };
-        const od = OrderedDict.fromDict(input);
+        const od = OrderedDict.fromDict(inputDict);
         const output = od.reduce((memo, value) => memo + value, 0);
         expect(output).toEqual(6);
       });
 
       it('should reduce in order', () => {
-        const input = { a: 1, b: 2, c: 3 };
-        const od = OrderedDict.fromDict(input);
+        const od = OrderedDict.fromDict(inputDict);
         const output = od.reduce<ReadonlyArray<number>>(
           (memo, value) => memo.concat([value]),
           []
         );
         expect(output).toEqual([1, 2, 3]);
+      });
+    });
+
+    describe('some', () => {
+      it('should return true if we have a match', () => {
+        const input = { a: 1, b: 2, c: 3 };
+        const od = OrderedDict.fromDict(input);
+        expect(od.some(item => item > 2)).toBe(true);
+      });
+
+      it("should return false if we don't have a match", () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.some(item => item > 3)).toBe(false);
+      });
+    });
+
+    describe('all', () => {
+      it('should return true if we have all matches', () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.all(item => item > 0)).toBe(true);
+      });
+
+      it("should return false if we don't have all matches", () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.all(item => item > 1)).toBe(false);
+      });
+    });
+
+    describe('find', () => {
+      it('should return an instance', () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.find(item => item > 1)).toBe(2);
+      });
+
+      it('should return undefined', () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.find(item => item > 3)).toBeUndefined();
+      });
+    });
+
+    describe('findIndex', () => {
+      it('should return an index', () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.findIndex(item => item > 1)).toBe(1);
+      });
+
+      it('should return -1', () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.findIndex(item => item > 3)).toBe(-1);
+      });
+    });
+
+    describe('findKey', () => {
+      it('should return a key', () => {
+        const od = OrderedDict.fromDict(inputDict);
+        expect(od.findKey(item => item > 1)).toBe('b');
+      });
+
+      it('should return undefined', () => {
+        const input = { a: 1, b: 2, c: 3 };
+        const od = OrderedDict.fromDict(input);
+        expect(od.findKey(item => item > 3)).toBeUndefined();
       });
     });
   });

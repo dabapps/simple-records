@@ -74,7 +74,7 @@ export class OrderedDict<T> {
     return sort ? result.sort(sort) : result;
   }
 
-  public sort(sort: Sort<T>): OrderedDict<T> {
+  public sort(sort: Sort<T> = OrderedDict.defaultSort): OrderedDict<T> {
     return OrderedDict.fromProplist(this.toProplist().sort(sort));
   }
 
@@ -91,40 +91,129 @@ export class OrderedDict<T> {
   }
 
   public delete(keyToDelete: string): OrderedDict<T> {
-    const items: { [k: string]: T } = {};
-    for (const key in this._values) {
+    const items: MutableProplist<T> = [];
+    this._keys.forEach(key => {
       if (keyToDelete !== key) {
-        items[key] = this._values[key];
+        items.push([key, this._values[key]]);
       }
-    }
-    return new OrderedDict(
-      this._keys.filter(item => item !== keyToDelete),
-      items
-    );
+    });
+    return OrderedDict.fromProplist(items);
   }
 
   public map<U>(
     callback: (value: T, key: string, index: number) => U
   ): OrderedDict<U> {
-    const items: { [k: string]: U } = {};
-    let index = 0;
-    for (const key in this._values) {
-      items[key] = callback(this._values[key], key, index);
-      index++;
-    }
-    return new OrderedDict(this._keys, items);
+    const items: Proplist<U> = this._keys.map((key, index): [string, U] => {
+      return [key, callback(this._values[key], key, index)];
+    });
+    return OrderedDict.fromProplist(items);
   }
 
   public filter(
     callback: (value: T, key: string, index: number) => boolean
   ): OrderedDict<T> {
-    return this;
+    const items: MutableProplist<T> = [];
+    this._keys.forEach((key, index) => {
+      if (callback(this._values[key], key, index)) {
+        items.push([key, this._values[key]]);
+      }
+    });
+    return OrderedDict.fromProplist(items);
   }
 
   public reduce<U>(
     callback: (memo: U, value: T, key: string, index: number) => U,
     initial: U
-  ): OrderedDict<T> {
-    return this;
+  ): U {
+    let result = initial;
+    this._keys.forEach((key, index) => {
+      result = callback(result, this._values[key], key, index);
+    });
+    return result;
+  }
+
+  public some(
+    callback: (value: T, key: string, index: number) => boolean
+  ): boolean {
+    let index = 0;
+    for (const key of this._keys) {
+      if (callback(this._values[key], key, index)) {
+        return true;
+      }
+      index++;
+    }
+    return false;
+  }
+
+  public all(
+    callback: (value: T, key: string, index: number) => boolean
+  ): boolean {
+    let index = 0;
+    for (const key of this._keys) {
+      if (!callback(this._values[key], key, index)) {
+        return false;
+      }
+      index++;
+    }
+    return true;
+  }
+
+  public find(
+    callback: (value: T, key: string, index: number) => boolean
+  ): T | undefined {
+    let index = 0;
+    for (const key of this._keys) {
+      if (callback(this._values[key], key, index)) {
+        return this._values[key];
+      }
+      index++;
+    }
+    return undefined;
+  }
+
+  public findIndex(
+    callback: (value: T, key: string, index: number) => boolean
+  ): number {
+    let index = 0;
+    for (const key of this._keys) {
+      if (callback(this._values[key], key, index)) {
+        return index;
+      }
+      index++;
+    }
+    return -1;
+  }
+
+  public findKey(
+    callback: (value: T, key: string, index: number) => boolean
+  ): string | undefined {
+    let index = 0;
+    for (const key of this._keys) {
+      if (callback(this._values[key], key, index)) {
+        return key;
+      }
+      index++;
+    }
+    return undefined;
+  }
+
+  public indexOf(item: T): number {
+    let index = 0;
+    for (const key of this._keys) {
+      if (item === this._values[key]) {
+        return index;
+      }
+      index++;
+    }
+    return -1;
+  }
+
+  public keyOf(item: T): string | undefined {
+    for (const key of this._keys) {
+      if (item === this._values[key]) {
+        return key;
+      }
+    }
+    return undefined;
   }
 }
