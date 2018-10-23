@@ -55,6 +55,13 @@ describe('OrderedDict', () => {
     expect(output).toEqual(['b', 'a', 'c']);
   });
 
+  it('should allow for deletion', () => {
+    const input = { a: 1, b: 2, c: 3 };
+    const od = OrderedDict.fromDict(input);
+    const output = od.delete('b').toDict();
+    expect(output).toEqual({ a: 1, c: 3 });
+  });
+
   describe('get', () => {
     it('should return a value', () => {
       const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
@@ -66,6 +73,12 @@ describe('OrderedDict', () => {
       const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
       const od = OrderedDict.fromProplist(input);
       expect(od.get('z')).toBeUndefined();
+    });
+
+    it('should return a default', () => {
+      const input: Proplist<number> = [['b', 2], ['a', 1], ['c', 3]];
+      const od = OrderedDict.fromProplist(input);
+      expect(od.get('z', 20)).toBe(20);
     });
   });
 
@@ -136,6 +149,41 @@ describe('OrderedDict', () => {
           .merge(od2, ([aKey, aValue], [bKey, bValue]) => bValue - aValue)
           .keys()
       ).toEqual(['d', 'c', 'b', 'a']);
+    });
+  });
+
+  describe('functional', () => {
+    it('should map correctly', () => {
+      const input = { a: 1, b: 2, c: 3 };
+      const od = OrderedDict.fromDict(input);
+      const output = od.map(value => String(value)).toDict();
+      expect(output).toEqual({ a: '1', b: '2', c: '3' });
+    });
+
+    it('should filter correctly', () => {
+      const input = { a: 1, b: 2, c: 3 };
+      const od = OrderedDict.fromDict(input);
+      const output = od.filter(value => value < 3).toDict();
+      expect(output).toEqual({ a: 1, b: 2 });
+    });
+
+    describe('reduce', () => {
+      it('should reduce correctly', () => {
+        const input = { a: 1, b: 2, c: 3 };
+        const od = OrderedDict.fromDict(input);
+        const output = od.reduce((memo, value) => memo + value, 0);
+        expect(output).toEqual(6);
+      });
+
+      it('should reduce in order', () => {
+        const input = { a: 1, b: 2, c: 3 };
+        const od = OrderedDict.fromDict(input);
+        const output = od.reduce<ReadonlyArray<number>>(
+          (memo, value) => memo.concat([value]),
+          []
+        );
+        expect(output).toEqual([1, 2, 3]);
+      });
     });
   });
 });

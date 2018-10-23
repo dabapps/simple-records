@@ -78,8 +78,9 @@ export class OrderedDict<T> {
     return OrderedDict.fromProplist(this.toProplist().sort(sort));
   }
 
-  public get(key: string): T | undefined {
-    return this._values[key];
+  public get(key: string, defaultItem?: T): T | undefined {
+    const result = this._values[key];
+    return typeof result === 'undefined' ? defaultItem : result;
   }
 
   public index(idx: number): T | undefined {
@@ -87,5 +88,43 @@ export class OrderedDict<T> {
       return undefined;
     }
     return this.get(this._keys[idx]);
+  }
+
+  public delete(keyToDelete: string): OrderedDict<T> {
+    const items: { [k: string]: T } = {};
+    for (const key in this._values) {
+      if (keyToDelete !== key) {
+        items[key] = this._values[key];
+      }
+    }
+    return new OrderedDict(
+      this._keys.filter(item => item !== keyToDelete),
+      items
+    );
+  }
+
+  public map<U>(
+    callback: (value: T, key: string, index: number) => U
+  ): OrderedDict<U> {
+    const items: { [k: string]: U } = {};
+    let index = 0;
+    for (const key in this._values) {
+      items[key] = callback(this._values[key], key, index);
+      index++;
+    }
+    return new OrderedDict(this._keys, items);
+  }
+
+  public filter(
+    callback: (value: T, key: string, index: number) => boolean
+  ): OrderedDict<T> {
+    return this;
+  }
+
+  public reduce<U>(
+    callback: (memo: U, value: T, key: string, index: number) => U,
+    initial: U
+  ): OrderedDict<T> {
+    return this;
   }
 }
