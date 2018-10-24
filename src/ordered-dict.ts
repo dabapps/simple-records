@@ -2,6 +2,7 @@ import { Dict } from './core';
 import { dictToProplist, MutableProplist, Proplist } from './proplists';
 
 export type Sort<T> = (a: [string, T], b: [string, T]) => number;
+export type ValueMapper<T, U> = (a: T) => U;
 
 export class OrderedDict<T> {
   public static defaultSort = (a: [string, any], b: [string, any]) =>
@@ -76,6 +77,17 @@ export class OrderedDict<T> {
 
   public sort(sort: Sort<T> = OrderedDict.defaultSort): OrderedDict<T> {
     return OrderedDict.fromProplist(this.toProplist().sort(sort));
+  }
+
+  public sortBy(
+    valueMapper: ValueMapper<T>,
+    sort: Sort<T> = OrderedDict.defaultSort
+  ): OrderedDict<T> {
+    return OrderedDict.fromProplist(
+      this.toProplist().sort((a: [string, T], b: [string, T]) =>
+        sort(valueMapper(a[1]), valueMapper(b[1]))
+      )
+    );
   }
 
   public get(key: string): T | undefined;
