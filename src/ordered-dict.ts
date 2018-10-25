@@ -96,6 +96,20 @@ export class OrderedDict<T> {
     return typeof result === 'undefined' ? defaultValue : result;
   }
 
+  public first(): T | undefined {
+    if (!this._keys.length) {
+      return undefined;
+    }
+    return this._values[this._keys[0]];
+  }
+
+  public last(): T | undefined {
+    if (!this._keys.length) {
+      return undefined;
+    }
+    return this._values[this._keys[this._keys.length - 1]];
+  }
+
   public index(idx: number): T | undefined {
     if (idx < 0 || idx >= this._keys.length) {
       return undefined;
@@ -111,6 +125,12 @@ export class OrderedDict<T> {
       }
     });
     return OrderedDict.fromProplist(items);
+  }
+
+  public forEach(callback: (value: T, key: string, index: number) => void) {
+    this._keys.forEach((key, index) => {
+      callback(this._values[key], key, index);
+    });
   }
 
   public map<U>(
