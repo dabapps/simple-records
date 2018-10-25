@@ -194,7 +194,7 @@ describe('OrderedDict', () => {
       expect(od.first()).toEqual(1);
     });
 
-    it('should return the first last correctly', () => {
+    it('should return the last value correctly', () => {
       const od = OrderedDict.fromDict(inputDict);
       expect(od.last()).toEqual(3);
     });
