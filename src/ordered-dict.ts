@@ -158,7 +158,7 @@ export class OrderedDict<T> {
     return false;
   }
 
-  public all(
+  public every(
     callback: (value: T, key: string, index: number) => boolean
   ): boolean {
     let index = 0;
