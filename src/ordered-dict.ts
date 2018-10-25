@@ -102,6 +102,12 @@ export class OrderedDict<T> {
     return OrderedDict.fromProplist(items);
   }
 
+  public forEach<U>(callback: (value: T, key: string, index: number) => U) {
+    this._keys.forEach((key, index): [string, U] => {
+      return [key, callback(this._values[key], key, index)];
+    });
+  }
+
   public map<U>(
     callback: (value: T, key: string, index: number) => U
   ): OrderedDict<U> {

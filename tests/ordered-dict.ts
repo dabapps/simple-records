@@ -189,6 +189,13 @@ describe('OrderedDict', () => {
   });
 
   describe('functional', () => {
+    it('should forEach correctly', () => {
+      const od = OrderedDict.fromDict(inputDict);
+      const copy: Array<[string, number]> = [];
+      od.forEach((value, key) => copy.push([key, value]));
+      expect(copy).toEqual([['a', 1], ['b', 2], ['c', 3]]);
+    });
+
     it('should map correctly', () => {
       const od = OrderedDict.fromDict(inputDict);
       const output = od.map(value => String(value)).toDict();
