@@ -256,15 +256,15 @@ describe('OrderedDict', () => {
       });
     });
 
-    describe('all', () => {
+    describe('every', () => {
       it('should return true if we have all matches', () => {
         const od = OrderedDict.fromDict(inputDict);
-        expect(od.all(item => item > 0)).toBe(true);
+        expect(od.every(item => item > 0)).toBe(true);
       });
 
       it("should return false if we don't have all matches", () => {
         const od = OrderedDict.fromDict(inputDict);
-        expect(od.all(item => item > 1)).toBe(false);
+        expect(od.every(item => item > 1)).toBe(false);
       });
     });
 
