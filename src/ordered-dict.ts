@@ -78,6 +78,17 @@ export class OrderedDict<T> {
     return OrderedDict.fromProplist(this.toProplist().sort(sort));
   }
 
+  public sortBy<U>(
+    valueMapper: (item: T) => U,
+    sort: Sort<U> = OrderedDict.defaultSort
+  ): OrderedDict<T> {
+    return OrderedDict.fromProplist(
+      this.toProplist().sort((a: [string, T], b: [string, T]) =>
+        sort([a[0], valueMapper(a[1])], [b[0], valueMapper(b[1])])
+      )
+    );
+  }
+
   public get(key: string): T | undefined;
   public get(key: string, defaultValue: T): T;
   public get(key: string, defaultValue?: T): T | undefined {

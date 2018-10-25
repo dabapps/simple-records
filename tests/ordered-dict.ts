@@ -153,6 +153,31 @@ describe('OrderedDict', () => {
     });
   });
 
+  describe('sortBy', () => {
+    const inputObjectProplist: Proplist<Readonly<{ value: number }>> = [
+      ['b', { value: 2 }],
+      ['a', { value: 1 }],
+      ['c', { value: 3 }],
+    ];
+    const od = OrderedDict.fromProplist(inputObjectProplist);
+
+    it('should have a default sort', () => {
+      expect(od.sortBy(item => item.value).keys()).toEqual(['a', 'b', 'c']);
+    });
+
+    it('should take a sort param', () => {
+      expect(
+        od
+          .sortBy(
+            item => item.value,
+            ([keyLeft, valueLeft], [keyRight, valueRight]) =>
+              valueRight - valueLeft
+          )
+          .keys()
+      ).toEqual(['c', 'b', 'a']);
+    });
+  });
+
   describe('merge', () => {
     it('should ignore duplicates', () => {
       const od = OrderedDict.fromProplist(inputProplist);
