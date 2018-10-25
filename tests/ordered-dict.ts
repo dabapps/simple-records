@@ -189,6 +189,16 @@ describe('OrderedDict', () => {
   });
 
   describe('functional', () => {
+    it('should return the first value correctly', () => {
+      const od = OrderedDict.fromDict(inputDict);
+      expect(od.first()).toEqual(1);
+    });
+
+    it('should return the first last correctly', () => {
+      const od = OrderedDict.fromDict(inputDict);
+      expect(od.last()).toEqual(3);
+    });
+
     it('should forEach correctly', () => {
       const od = OrderedDict.fromDict(inputDict);
       const copy: Array<[string, number]> = [];
