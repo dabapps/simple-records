@@ -132,3 +132,7 @@ const orderedDictMerged = orderedDict2.merge(orderedDict3, ([leftKey, leftValue]
 ```
 
 Additional Array-like methods are provided to match the behaviour of native Arrays.
+
+## Code of conduct
+
+For guidelines regarding the code of conduct when contributing to this repository please review [https://www.dabapps.com/open-source/code-of-conduct/](https://www.dabapps.com/open-source/code-of-conduct/)
