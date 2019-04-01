@@ -35,6 +35,20 @@ const x: Dict<string> = {
 
 ```
 
+### JSON and ReadonlyJSON
+
+When dealing with unknown recursive data shapes from a server, you can specify them as JSON or ReadonlyJSON;
+
+```typescript
+const x: JSON = {
+  hi: {
+    there: [
+      1, 2, 3, 'a'
+    ]
+  }
+}
+```
+
 ### SimpleRecord
 
 SimpleRecord creates a function that produces a given Readonly interface, with default values for keys that aren't provided.
