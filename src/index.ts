@@ -1,4 +1,4 @@
-export { Dict, ObjectKeys, Pairs } from './core';
+export * from './core';
 export {
   Proplist,
   proplistGetFirst,
